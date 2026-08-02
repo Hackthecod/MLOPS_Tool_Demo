@@ -9,13 +9,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
 from urllib.parse import urlparse
 
-import mlf;ow
-from mlflow.model.signature import infer_signature
+import mlflow
+from mlflow.models.signature import infer_signature
 import mlflow.sklearn
 import dagshub
 import logging
 
-
+import dagshub
+dagshub.init(repo_owner='Hackthecod', repo_name='MLOPS_Tool_Demo', mlflow=True)
 
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
@@ -29,7 +30,7 @@ def eval_metrics(actual, pred):
 
 
 if __name__ == "__main__":
-    warnings.filterswarnings("ignore")
+    warnings.filterwarnings("ignore")
     np.random.seed(40)
 
     # Read the sine-quality csv file from the URL
@@ -71,15 +72,15 @@ with mlflow.start_run():
     print(" R2: %s" % r2)
 
 
-    mlflow.log_params("alpha", alpha)
-    mlflow.log_params("l1_ratio", l1_ratio)
+    mlflow.log_param("alpha", alpha)
+    mlflow.log_param("l1_ratio", l1_ratio)
     mlflow.log_metric("rmse", rmse)
     mlflow.log_metric("mae", mae)
     mlflow.log_metric("r2", r2)
 
 
     # For remote server only (Dagshub)
-    remote_server_uri = "https://dagshub.com/Hackthecod/my-first-repo.mlflow"
+    remote_server_uri = "https://dagshub.com/Hackthecod/MLOPS_Tool_Demo.mlflow"
     mlflow.set_tracking_uri(remote_server_uri)
 
 
